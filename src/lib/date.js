@@ -4,6 +4,10 @@ const date = (data) =>{
   return dateWithoutTime
 }
 
+const day = (data) => {
+  return data.toLocaleString('en-us', {  month: 'long' })
+}
+
 const week = (data) =>{
   const date = new Date(data);
   const firstDayOfYear = new Date(date.getFullYear(), 0, 1);
@@ -11,4 +15,5 @@ const week = (data) =>{
   const result = Math.ceil((pastDaysOfYear + firstDayOfYear.getDay() + 1) / 7);
   return result
 }
-module.exports = {date,week}
+
+module.exports = {date,week,day}
