@@ -1,13 +1,38 @@
 /* App.js */
 import React, { Component } from 'react';
 import CanvasJSReact from '@canvasjs/react-charts';
-import { date} from '../lib/date';
+import { convertDate, date} from '../lib/date';
 //var CanvasJSReact = require('@canvasjs/react-charts');
- 
+
 const CanvasJSChart = CanvasJSReact.CanvasJSChart;
- 
+
+
 let dailyRTS =[]
 let dailyForecast = []
+let dailyUpper = []
+
+
+// Create a new Date object representing the current date
+const today = new Date();
+
+// Get the month and year components of the current date
+let currentMonth = today.getMonth();
+let currentYear = today.getFullYear();
+
+// Decrease the month by 1
+currentMonth -= 1;
+
+// Handle cases where the current month is January
+if (currentMonth < 0) {
+  currentMonth = 11; // Set to December
+  currentYear -= 1; // Subtract 1 from the year
+}
+
+// Create a new Date object representing the decreased date
+const decreasedDate = new Date(currentYear, currentMonth, today.getDate());
+const firstDay = convertDate(decreasedDate)
+
+
 
 class GraphicPage extends Component {
  
@@ -42,16 +67,17 @@ class GraphicPage extends Component {
 			axisY: {
 				title: "Forecast",
 				titleFontColor: "black",
-				lineColor: "#45CA27",
-				labelFontColor: "#45CA27",
+				lineColor: "black",
+				labelFontColor: "black",
 				tickColor: "#6D78AD"
 			},
 			axisY2: {
-				title: "RTS",
+				title: "Upper",
 				titleFontColor: "black",
-				lineColor: "#F08117",
-				labelFontColor: "#F08117",
-				tickColor: "#F08117"
+				suffix: "%",
+				lineColor: "black",
+				labelFontColor: "black",
+				tickColor: "black"
 			},
 			toolTip: {
 				shared: true
@@ -62,8 +88,9 @@ class GraphicPage extends Component {
 			},
 			data: [{
 				type: "column",
+				axisYType: "primary",
 				name: "Forecast",
-				color: "#69EC4B",
+				color: "#F4913A",
 				indexLabel: "{y}",
 				showInLegend: true,
 				xValueFormatString: "MMM YYYY",
@@ -71,15 +98,26 @@ class GraphicPage extends Component {
 				dataPoints: dailyForecast
 			},
 			{
-				type: "spline",
+				type: "column",
 				name: "RTS",
-				axisYType: "secondary",
+				axisYType: "primary",
 				indexLabel: "{y}",
-				color: "#F08117",
+				color: "#1DEE53",
 				showInLegend: true,
 				xValueFormatString: "MMM YYYY",
 				yValueFormatString: "#,##0",
 				dataPoints: dailyRTS
+			},
+			{
+				type: "spline",
+				name: "Upper",
+				axisYType: "secondary",
+				// indexLabel: "{y}%",
+				color: "#264CF3",
+				showInLegend: true,
+				xValueFormatString: "MMM YYYY",
+				yValueFormatString: "#,##0.0\"%\"",
+				dataPoints: dailyUpper
 			}]
 		}
 		
@@ -95,9 +133,10 @@ class GraphicPage extends Component {
 	}
 	
 	componentDidMount(){
-			fetch('http://192.168.18.26:9000/forecast')
+			fetch(`http://192.168.18.26:9000/forecast/${firstDay}/${convertDate(today)}`)
 			.then(response => response.json())
 			.then(res => {
+				console.log(res.payload);
 				const data = res.payload.rows
 				data.map(value => {
 					dailyRTS.push({
@@ -107,6 +146,10 @@ class GraphicPage extends Component {
 					dailyForecast.push({
 						label: date(value.date),
 						y: value.forecast
+					})
+					dailyUpper.push({
+						label: date(value.date),
+						y: value.upper
 					})
 					if (this.chart) {
 						this.chart.render()

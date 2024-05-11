@@ -9,8 +9,8 @@ import Table from 'react-bootstrap/Table';
 import { Link } from 'react-router-dom';
 import GraphicPage from './graphics';
 
-
 function FormExample() {
+
   const [validated, setValidated] = useState(false);
   
   // get data form before post to api
@@ -38,9 +38,6 @@ function FormExample() {
     const dateWithoutTime = date.toDateString();
     return dateWithoutTime
   }
-  // post form data to api
-
-  // get data to api
   
   const [forecast, setForecast] = useState([]);
   useEffect(() => {
@@ -49,7 +46,6 @@ function FormExample() {
     });
   }, []);
   
-
   return (
     <Container>
     <Nav>
@@ -77,7 +73,6 @@ function FormExample() {
         <Form.Group as={Col} md="4" controlId="validationCustom02">
           <Form.Label>Actual Forecast</Form.Label>
           <Form.Control
-            required
             type="number"
             placeholder="Actual Forecast"
           />
