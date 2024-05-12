@@ -8,6 +8,7 @@ import Row from 'react-bootstrap/Row';
 import Table from 'react-bootstrap/Table';
 import { Link } from 'react-router-dom';
 import GraphicPage from './graphics';
+import link from '../lib/link';
 
 function FormExample() {
 
@@ -24,7 +25,7 @@ function FormExample() {
     if(event.target[2].checked === true) {
       axios({
         method: 'post',
-        url: 'http://192.168.18.26:9000/forecast',
+        url: 'http://localhost:9000/forecast',
         data: {
           RTS: +event.target[0].value,
           actual_forecast: +event.target[1].value
@@ -41,7 +42,7 @@ function FormExample() {
   
   const [forecast, setForecast] = useState([]);
   useEffect(() => {
-    axios.get("http://192.168.18.26:9000/forecast/dashboard").then((res) => {
+    axios.get("http://localhost:9000/forecast/dashboard").then((res) => {
       setForecast(res.data.payload.rows)
     });
   }, []);
@@ -92,7 +93,7 @@ function FormExample() {
     <Container>
     <Table striped bordered hover size="sm">
     <thead>
-        <tr class="text-center">
+        <tr className="text-center">
           <th>No</th>
           <th>Date</th>
           <th>Week</th>
@@ -104,18 +105,54 @@ function FormExample() {
           <th>Manpower</th>
         </tr>
       </thead>
-    <tbody class="text-center">
+    <tbody className="text-center">
     {forecast.map((data,i) => (
         <tr>
-          <td>{i+1}</td>
-          <td key={i}>{date(data.date)}</td>
-          <td>{data.week}</td>
-          <td>{data.RTS}</td>
-          <td>{data.upper}</td>
-          <td>{data.forecast}</td>
-          <td>{data.actual_forecast}</td>
-          <td>{data.actual_upper}</td>
-          <td>{data.manpower}</td>
+          <td key={data.id}>
+          <Link to={link(data.id)} style={{color:'#000000',textDecoration: 'none'}}>
+            {i+1}
+          </Link>
+            </td>
+          <td>
+          <Link to={link(data.id)} style={{color:'#000000',textDecoration: 'none'}}>
+            {date(data.date)}
+          </Link>
+            </td>
+          <td>
+          <Link to={link(data.id)} style={{color:'#000000',textDecoration: 'none'}}>
+            {data.week}
+          </Link>
+            </td>
+          <td>
+          <Link to={link(data.id)} style={{color:'#000000',textDecoration: 'none'}}>
+            {data.RTS}
+          </Link>
+            </td>
+          <td>
+          <Link to={link(data.id)} style={{color:'#000000',textDecoration: 'none'}}>
+            {data.upper}%
+          </Link>
+            </td>
+          <td>
+          <Link to={link(data.id)} style={{color:'#000000',textDecoration: 'none'}}>
+            {data.forecast}
+          </Link>
+            </td>
+          <td>
+          <Link to={link(data.id)} style={{color:'#000000',textDecoration: 'none'}}>
+            {data.actual_forecast}
+          </Link>
+            </td>
+          <td>
+          <Link to={link(data.id)} style={{color:'#000000',textDecoration: 'none'}}>
+            {data.actual_upper}%
+          </Link>
+            </td>
+          <td>
+          <Link to={link(data.id)} style={{color:'#000000',textDecoration: 'none'}}>
+            {data.manpower}
+          </Link>
+            </td>
         </tr>
     ))}
     </tbody>

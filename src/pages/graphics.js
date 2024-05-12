@@ -77,7 +77,8 @@ class GraphicPage extends Component {
 				suffix: "%",
 				lineColor: "black",
 				labelFontColor: "black",
-				tickColor: "black"
+				tickColor: "black",
+				lineOpacity: 0
 			},
 			toolTip: {
 				shared: true
@@ -133,10 +134,10 @@ class GraphicPage extends Component {
 	}
 	
 	componentDidMount(){
-			fetch(`http://192.168.18.26:9000/forecast/${firstDay}/${convertDate(today)}`)
+			fetch(`http://localhost:9000/forecast/${firstDay}/${convertDate(today)}`)
 			.then(response => response.json())
 			.then(res => {
-				console.log(res.payload);
+				console.log(res.payload.rows);
 				const data = res.payload.rows
 				data.map(value => {
 					dailyRTS.push({
