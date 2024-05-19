@@ -9,6 +9,7 @@ import {
 import React from 'react'
 import ForecastPage from './pages/forecast';
 import GraphicPage from './pages/graphics';
+import Details from './pages/details';
 
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
     <Routes>
         <Route path='/' element={<ForecastPage/>} />
         <Route path='/graphics' element={<GraphicPage/>} />
+        <Route path='/forecast/:id' element={<Details/>} />
     </Routes>
     </BrowserRouter>
   )
