@@ -7,13 +7,17 @@ import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import Table from "react-bootstrap/Table";
 import { Link } from "react-router-dom";
-import GraphicPage from "./graphics";
-import link from "../lib/link";
+import GraphicPage from "./forecast_chart";
 import Clink from "../components/link/link";
+import { date } from "../lib/date";
+import Tab from "react-bootstrap/Tab";
+import Tabs from "react-bootstrap/Tabs";
+import TabContent from "react-bootstrap/TabContent";
+import ActualGraphics from "./actual_chart";
 
 function FormExample() {
   const [validated, setValidated] = useState(false);
-
+  const [key, setKey] = useState("home");
   // get data form before post to api
   const handleSubmit = (event) => {
     const form = event.currentTarget;
@@ -32,12 +36,6 @@ function FormExample() {
         },
       });
     }
-  };
-
-  const date = (data) => {
-    const date = new Date(data);
-    const dateWithoutTime = date.toDateString();
-    return dateWithoutTime;
   };
 
   const [forecast, setForecast] = useState([]);
@@ -60,7 +58,24 @@ function FormExample() {
           </Nav.Item>
         </Nav>
       </Nav>
-      <GraphicPage />
+      <Container>
+        <Tabs
+          id="controlled-tab-example"
+          activeKey={key}
+          onSelect={(k) => setKey(k)}
+          className="mb-3"
+          defaultActiveKey="forecast"
+        >
+          <Tab eventKey="forecast" title="Forecast"></Tab>
+          <Tab eventKey="actual" title="Actual"></Tab>
+          <TabContent eventKey="forecast">
+            <GraphicPage />
+          </TabContent>
+          <TabContent eventKey="actual">
+            <ActualGraphics />
+          </TabContent>
+        </Tabs>
+      </Container>
       <Form noValidate validated={validated} onSubmit={handleSubmit}>
         <Row className="mb-3">
           <Form.Group as={Col} md="4" controlId="validationCustom01">
