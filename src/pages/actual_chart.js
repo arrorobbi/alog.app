@@ -50,7 +50,7 @@ class ActualGraphics extends Component {
       theme: "light2",
       animationEnabled: true,
       title: {
-        text: "RTS and Actual",
+        text: "Forecast and Actual",
       },
       subtitles: [
         {
@@ -58,14 +58,14 @@ class ActualGraphics extends Component {
         },
       ],
       axisY: {
-        title: "Forecast",
+        title: "Actual Forecast",
         titleFontColor: "black",
         lineColor: "black",
         labelFontColor: "black",
         tickColor: "#6D78AD",
       },
       axisY2: {
-        title: "Upper",
+        title: "Actual Upper",
         titleFontColor: "black",
         suffix: "%",
         lineColor: "black",
@@ -85,7 +85,7 @@ class ActualGraphics extends Component {
           type: "column",
           axisYType: "primary",
           name: "Actual Forecast",
-          color: "#F4913A",
+          color: "#F7AA00",
           indexLabel: "{y}",
           showInLegend: true,
           xValueFormatString: "MMM YYYY",
@@ -94,10 +94,10 @@ class ActualGraphics extends Component {
         },
         {
           type: "column",
-          name: "RTS",
+          name: "Forecast",
           axisYType: "primary",
           indexLabel: "{y}",
-          color: "#1DEE53",
+          color: "#40A8C4",
           showInLegend: true,
           xValueFormatString: "MMM YYYY",
           yValueFormatString: "#,##0",
@@ -108,7 +108,7 @@ class ActualGraphics extends Component {
           name: "Actual Upper",
           axisYType: "secondary",
           // indexLabel: "{y}%",
-          color: "#264CF3",
+          color: "#235784",
           showInLegend: true,
           xValueFormatString: "MMM YYYY",
           yValueFormatString: '#,##0.0"%"',
@@ -134,7 +134,7 @@ class ActualGraphics extends Component {
         data.map((value) => {
           dailyRTS.push({
             label: date(value.date),
-            y: value.RTS,
+            y: value.forecast,
           });
           dailyForecast.push({
             label: date(value.date),
