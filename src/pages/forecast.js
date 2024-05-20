@@ -66,8 +66,12 @@ function FormExample() {
           className="mb-3"
           defaultActiveKey="forecast"
         >
-          <Tab eventKey="forecast" title="Forecast"></Tab>
-          <Tab eventKey="actual" title="Actual"></Tab>
+          <Tab eventKey="forecast" title="Forecast">
+            Forecast
+          </Tab>
+          <Tab eventKey="actual" title="Actual">
+            Actual
+          </Tab>
           <TabContent eventKey="forecast">
             <GraphicPage />
           </TabContent>
